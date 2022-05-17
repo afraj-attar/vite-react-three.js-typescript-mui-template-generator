@@ -27,7 +27,8 @@ jobs:
         with:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
+          token: ${{ secrets.TOKEN }}
       - run: sudo npm ci
       - run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
