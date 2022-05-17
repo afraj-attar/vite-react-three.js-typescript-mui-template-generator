@@ -3,6 +3,7 @@ name: vite-react-three.js-typescript-mui-template-generator
 on:
   release:
     types: [created]
+  workflow_dispatch:
 
 jobs:
   build:
