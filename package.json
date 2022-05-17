@@ -1,0 +1,31 @@
+{
+    "name": "vite-react-three.js-typescript-mui-template-generator",
+    "version": "0.0.1",
+    "description": "A template generator for vite-react-three.js-typescript-mui-template",
+    "scripts": {
+        "start": "ts-node src/index.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/afraj-attar/vite-react-three.js-typescript-mui-template-generator.git"
+    },
+    "author": "Afraj Attar",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/afraj-attar/vite-react-three.js-typescript-mui-template-generator/issues"
+    },
+    "homepage": "https://github.com/afraj-attar/vite-react-three.js-typescript-mui-template-generator#readme",
+    "devDependencies": {
+        "@types/ejs": "^3.1.1",
+        "@types/inquirer": "^8.2.1",
+        "@types/node": "^17.0.34",
+        "@types/shelljs": "^0.8.11",
+        "nodemon": "^2.0.16",
+        "shelljs": "^0.8.5",
+        "shx": "^0.3.4",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.4",
+        "ejs": "^3.1.8",
+        "inquirer": "^8.2.4"
+    }
+}
