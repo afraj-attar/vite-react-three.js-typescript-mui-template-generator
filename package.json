@@ -1,5 +1,5 @@
 {
-    "name": "vite-react-three.js-typescript-mui-template-generator",
+    "name": "@afraj-attar/vite-react-three.js-typescript-mui-template-generator",
     "version": "0.0.1",
     "description": "A template generator for vite-react-three.js-typescript-mui-template",
     "scripts": {
