@@ -3,7 +3,11 @@
     "version": "0.0.1",
     "description": "A template generator for vite-react-three.js-typescript-mui-template",
     "scripts": {
-        "start": "ts-node src/index.ts"
+        "start": "ts-node src/index.ts",
+        "build": "tsc && shx rm -rf dist/templates && shx cp -r src/templates dist"
+    },
+    "bin": {
+        "create": "./dist/index.js"
     },
     "repository": {
         "type": "git",
