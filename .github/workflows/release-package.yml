@@ -26,6 +26,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
           token: ${{ secrets.TOKEN }}
       - run: sudo npm ci
+      - run: cd .\src\templates\vite-react-three.js-typescript-mui-template\ && sudo npm ci && cd ../../..
+      - run: npm run build
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
