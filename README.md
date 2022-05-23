@@ -16,4 +16,7 @@ npm run start
 1. Select the template you want to use
 2. Enter the project name (refer below image)
 ```
-![image](https://user-images.githubusercontent.com/84125955/168815994-c2eff730-fb1f-45fb-b388-9c4e3b563256.png)
+![image](https://user-images.githubusercontent.com/84125955/169871244-c295c530-c0da-4db6-831e-55b86a69719b.png)
+
+![run_gif](https://user-images.githubusercontent.com/84125955/169871019-aa3ef2f6-46a3-45ca-8ca2-53ad5093e55b.gif)
+
