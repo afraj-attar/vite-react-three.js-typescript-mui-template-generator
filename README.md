@@ -3,7 +3,7 @@ A Template generator for vite-react-three.js-typescript-mui-template
 
 ## Create a project using this template directly without taking a clone of repo
 ```javscript
-npx @afraj-attar/vite-react-three.js-typescript-mui-template-generator
+npx -y @afraj-attar/vite-react-three.js-typescript-mui-template-generator
 ```
 
 ## How to run the Project
