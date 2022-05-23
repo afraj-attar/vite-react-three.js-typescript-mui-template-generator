@@ -88,7 +88,7 @@ function createDirectoryContents(templatePath: string, projectPath: string, proj
 
             contents = updateProjectName(contents, projectName, projectChoice); // update project names
 
-            if (file.includes('gitignore'))         // Replace the name of gitignore with .gitignore. Since .gitignore files get's deleted when package is published
+            if (file.includes('gitignore') && !file.includes('.gitignore'))         // Replace the name of gitignore with .gitignore. Since .gitignore files get's deleted when package is published
                 file = file.replace('gitignore', '.gitignore')
 
             // copy file to destination folder
