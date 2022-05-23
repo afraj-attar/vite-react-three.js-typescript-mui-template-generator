@@ -7,14 +7,17 @@ import chalk from 'chalk';
 import * as template from './utils/template';
 import * as shell from 'shelljs';
 
-const currentDir = process.cwd();
-const choices = fs.readdirSync(path.join(__dirname, 'templates'));
+const CURRENT_DIR = process.cwd();
+const CHOICES = fs.readdirSync(path.join(__dirname, 'templates'));
+const DEFAULT_USER_NAME = 'afraj-attar';
 
 export interface CliOptions {
-    projectName: string
-    templateName: string
-    templatePath: string
-    tartgetPath: string
+    projectName: string;
+    projectPath: string;
+    templateName: string;
+    templatePath: string;
+    tartgetPath: string;
+    userName: string;
 }
 
 const questions = [
@@ -22,12 +25,17 @@ const questions = [
         name: 'template',
         type: 'list',
         message: 'Which template would you like to use ?',
-        choices: choices
+        choices: CHOICES
     },
     {
         name: 'projectName',
         type: 'input',
         message: 'Please input a new project name: '
+    },
+    {
+        name: 'userName',
+        type: 'input',
+        message: 'Please enter your github user name(Used for Publishing): '
     }
 ];
 
@@ -35,22 +43,25 @@ inquirer.prompt(questions).then(answers => {
 
     const projectChoice = answers['template'];
     const projectName = answers['projectName'];
+    const userName = answers['userName'];
 
     const templatePath = path.join(__dirname, 'templates', projectChoice);
-    const tartgetPath = path.join(currentDir, projectName);
+    const tartgetPath = path.join(CURRENT_DIR, projectName);
 
     const options: CliOptions = {
         projectName,
-        templateName: projectChoice,
+        userName,
         templatePath,
-        tartgetPath
+        tartgetPath,
+        projectPath: projectName,
+        templateName: projectChoice,
     }
 
     if (!createProject(tartgetPath)) {
         return;
     }
 
-    createDirectoryContents(templatePath, projectName, projectName, projectChoice);
+    createDirectoryContents(options);
     postProcess(options);
 
 });
@@ -66,14 +77,14 @@ function createProject(projectPath: string) {
 }
 
 const skipFolders = ['node_modules'];
-function createDirectoryContents(templatePath: string, projectPath: string, projectName: string, projectChoice: string) {
+function createDirectoryContents(options: CliOptions) {
 
     // Get all files/folders,1 level, from template folder
-    const templateFiles = fs.readdirSync(templatePath);
+    const templateFiles = fs.readdirSync(options.templatePath);
 
     templateFiles.forEach(file => {
 
-        const origFilePath = path.join(templatePath, file);
+        const origFilePath = path.join(options.templatePath, file);
 
         const stats = fs.statSync(origFilePath);
 
@@ -84,33 +95,43 @@ function createDirectoryContents(templatePath: string, projectPath: string, proj
 
             // read file content and transform it using template engine
             let contents = fs.readFileSync(origFilePath, 'utf8');
-            contents = template.render(contents, { projectName: projectPath });
+            contents = template.render(contents, { projectName: options.projectPath });
 
-            contents = updateProjectName(contents, projectName, projectChoice); // update project names
+            if (contents.includes(options.templateName))
+                contents = replaceAll(contents, options.templateName, options.projectName); // update project names
+
+            if (contents.includes(DEFAULT_USER_NAME))
+                contents = replaceAll(contents, DEFAULT_USER_NAME, options.userName); // update user name
 
             if (file.includes('gitignore') && !file.includes('.gitignore'))         // Replace the name of gitignore with .gitignore. Since .gitignore files get's deleted when package is published
                 file = file.replace('gitignore', '.gitignore')
 
             // copy file to destination folder
-            const writePath = path.join(currentDir, projectPath, file);
+            const writePath = path.join(CURRENT_DIR, options.projectPath, file);
             fs.writeFileSync(writePath, contents, 'utf8');
 
         }
         else if (stats.isDirectory()) {
 
             // create folder in destination folder
-            fs.mkdirSync(path.join(currentDir, projectPath, file));
+            fs.mkdirSync(path.join(CURRENT_DIR, options.projectPath, file));
+
+            const newOptions: CliOptions = {
+                ...options,
+                templatePath: path.join(options.templatePath, file),
+                projectPath: path.join(options.projectPath, file),
+            }
 
             // copy files/folder inside current folder recursively
-            createDirectoryContents(path.join(templatePath, file), path.join(projectPath, file), projectName, projectChoice);
+            createDirectoryContents(newOptions);
         }
     });
 
 }
 
-function updateProjectName(contents: string, projectName: string, projectChoice: string) {
+function replaceAll(contents: string, searchValue: string, replaceValue: string) {
 
-    return contents.split(projectChoice).join(projectName);      // alternative to replaceAll for compatibility
+    return contents.split(searchValue).join(replaceValue);      // alternative to replaceAll for compatibility
 }
 
 function postProcess(options: CliOptions) {
