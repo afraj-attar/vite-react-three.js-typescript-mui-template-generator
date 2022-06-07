@@ -4,7 +4,9 @@
     "description": "A template generator for vite-react-three.js-typescript-mui-template",
     "scripts": {
         "start": "ts-node src/index.ts",
-        "build": "tsc && shx rm -rf dist/templates && shx cp -r src/templates dist"
+        "build": "tsc && shx rm -rf dist/templates && shx cp -r src/templates dist",
+        "install": "cd ./src/templates/vite-react-three.js-typescript-mui-template/ && npm i && cd ../../../",
+        "prepublishOnly": "cd ./src/templates/vite-react-three.js-typescript-mui-template/ && npm run build && cd ../../../ && npm run build"
     },
     "bin": {
         "create": "./dist/index.js"
